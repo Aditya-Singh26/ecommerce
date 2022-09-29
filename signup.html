@@ -64,7 +64,7 @@
   document.querySelector("form").addEventListener("submit", signUp);
   //  login page linked
   let loginPage = document.createElement("a");
-  loginPage.setAttribute("href", "login.html");
+  loginPage.setAttribute("href", "index.html");
   loginPage.innerText = "Sign In";
   document.querySelector("form").append(loginPage);
 
@@ -86,10 +86,10 @@
       if (firstTimeUser(userCred) === true) {
         signUpArr.push(userCred);
         localStorage.setItem("signUpArrLs", JSON.stringify(signUpArr));
-        window.location.href="login.html"
+        window.location.href="index.html"
         alert("Account created successfully")
       } else {
-        window.location.href="login.html"
+        window.location.href="index.html"
         alert("Already had an account");
         
       }

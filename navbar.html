@@ -35,7 +35,7 @@
       #cart > img {
         width: 30px;
         height: auto;
-        background-color:transparent;
+        background-color: transparent;
       }
     </style>
   </head>
@@ -46,20 +46,18 @@
         <p>Reebok</p>
       </div>
       <div>
-        <p id="mens">Men</p>
-        <p id="womens">Women</p>
+        <p id="mens"><a href="mens.html">Men</a></p>
+        <p id="womens"><a href="womens.html">Women</a></p>
         <p id="cart"><img src="cart.jpg" alt="" /></p>
-        <p><a href="login.html">Login</a></p>
+        <p><a href="index.html">Login</a></p>
         <p><a href="signup.html">Signup</a></p>
       </div>
     </div>
   </body>
 </html>
 <script>
-  let loginData = JSON.parse(localStorage.getItem("loginDataLs"))
-  document.querySelector("#mens").addEventListener("click" ,accessToPages)
- 
-  function accessToPages(event){
+  let loginData = JSON.parse(localStorage.getItem("loginDataLs"));
+  document.querySelector("#mens").addEventListener("click", accessToPages);
 
- }
+  function accessToPages(event) {}
 </script>
