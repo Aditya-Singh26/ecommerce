@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      #nav {
+        position:sticky;
+        top: 0px;
+        width: 100%;
+        height: 80px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #1d2938;
+        border-radius: 20px;
+        box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      #nav > div {
+        display: flex;
+        padding-left: 30px;
+        color: white;
+      }
+
+      #nav > div:last-child {
+        width: 30%;
+        justify-content: space-around;
+      }
+      a {
+        color: white;
+        text-decoration: none;
+      }
+      #cart > img {
+        width: 30px;
+        height: auto;
+        background-color: #1d2938;
+      }
+      #product {
+        width: 70%;
+      }
+      #product > div {
+        display: flex;
+        width: auto;
+        background-color: rgb(229, 233, 213);
+        margin-bottom: 15px;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+          rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      }
+      #cartvalue {
+        position: sticky;
+        top: 100px;
+        right: 20px;
+        height: 200px;
+        width: 18%;
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+          rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      }
+      #stotal > button,
+      #tquant > button {
+        width: 60px;
+        height: 20px;
+      }
+
+      #stotal,
+      #tquant {
+        display: flex;
+      }
+
+      #cart {
+        display: flex;
+        justify-content: space-evenly;
+      }
+      #buy {
+        border: none;
+        border-radius: 15px;
+        padding: 5px 10px;
+        background-color: rgb(209, 209, 38);
+      }
+      #buy:hover {
+        cursor: pointer;
+        background-color: rgb(181, 255, 10);
+      }
+      #cartvalue {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        padding-left: 15px;
+        font-weight: bold;
+      }
+      #cartvalue > form > input {
+        margin: 5px 0px;
+      }
+      #cartvalue > form > label:hover {
+        cursor: pointer;
+        color: brown;
+      }
+      #submit {
+        border: none;
+        background-color: rgb(209, 209, 38);
+        border-radius: 5px;
+        padding: 3px;
+      }
+      #submit:hover {
+        cursor: pointer;
+        background-color: rgb(181, 255, 10);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="nav">
+      <div>
+        <p>Reebok</p>
+      </div>
+      <div>
+        <p><a href="mens.html">Men</a></p>
+        <p><a href="womens.html">Women</a></p>
+        <p>
+          <a id="cart" href="cart.html"><img src="cart.jpg" alt="" /></a>
+        </p>
+        <p><a href="login.html">Login</a></p>
+        <p><a href="signup.html">Signup</a></p>
+      </div>
+    </div>
+    <div id="cart">
+      <div id="product"></div>
+      <div id="cartvalue">
+        <div id="tquant">
+          <h3>Total Quantity =</h3>
+          <button></button>
+        </div>
+        <div id="stotal">
+          <h3>Subtotal =</h3>
+          <button></button>
+        </div>
+        <form>
+          <label for="coupon"> Add Promo Code</label>
+          <input type="text" name="" id="coupon" />
+          <input type="submit" name="" id="submit" value="Apply Promo" />
+        </form>
+        <button id="buy">Proceed to Buy</button>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  let cartArr = JSON.parse(localStorage.getItem("cartLS"));
+  let itemCount;
+  let tValue = 0;
+  displayCartItem(cartArr);
+  displayCartValue(cartArr);
+
+  function displayCartItem(cartArr) {
+    cartArr.forEach(function (element, index, cartArr) {
+      let prod = document.createElement("div");
+      let prodImg = document.createElement("img");
+      prodImg.src = element.image_url;
+
+      let details = document.createElement("div");
+      details.innerHTML = `<h2>${element.name}</h2><h3>${element.price}</h3>`;
+
+      let head = document.createElement("button");
+      head.innerText = element.quant;
+
+      let btn1 = document.createElement("button");
+      btn1.innerText = "+";
+      btn1.addEventListener("click", function () {
+        ++element.quant;
+        head.innerText = element.quant;
+        localStorage.setItem("cartLS", JSON.stringify(cartArr));
+        itemCount++;
+        tValue = tValue + element.price;
+        document.querySelector("#tquant>button").innerText = itemCount;
+        document.querySelector("#stotal>button").innerText = tValue;
+      });
+
+      let btn2 = document.createElement("button");
+      btn2.innerText = "-";
+      btn2.addEventListener("click", function () {
+        --element.quant;
+        itemCount--;
+        tValue = tValue - element.price;
+        document.querySelector("#tquant>button").innerText = itemCount;
+        document.querySelector("#stotal>button").innerText = tValue;
+        if (element.quant == 0) {
+          prod.innerHTML = "";
+          cartArr.splice(index, 1);
+          localStorage.setItem("cartLS", JSON.stringify(cartArr));
+        } else {
+          head.innerText = element.quant;
+          localStorage.setItem("cartLS", JSON.stringify(cartArr));
+        }
+      });
+      let btn3 = document.createElement("button");
+      btn3.innerText = "Delete";
+
+      btn3.addEventListener("click", function () {
+        prod.innerHTML = "";
+
+        itemCount = itemCount - element.quant;
+        tValue = tValue - element.quant * element.price;
+        document.querySelector("#stotal>button").innerText = tValue;
+        document.querySelector("#tquant>button").innerText = itemCount;
+        cartArr.splice(index, 1);
+        localStorage.setItem("cartLS", JSON.stringify(cartArr));
+      });
+
+      details.append(btn2, head, btn1, btn3);
+
+      prod.append(prodImg, details);
+
+      document.getElementById("product").append(prod);
+    });
+  }
+
+  function displayCartValue(cartArr) {
+    function addItem(accum, el) {
+      return accum + el.quant;
+    }
+    itemCount = cartArr.reduce(addItem, 0);
+    // console.log(itemCount);
+
+    let tQuant = document.querySelector("#tquant>button");
+    tQuant.innerText = itemCount;
+
+    function addPrice(accum, el) {
+      return accum + el.quant * el.price;
+    }
+    tValue = cartArr.reduce(addPrice, 0);
+
+    tPrice = document.querySelector("#stotal>button");
+    tPrice.innerText = tValue;
+  }
+  document.querySelector("#submit").addEventListener("click", function () {
+    addCoupon(tValue);
+  });
+  function addCoupon(tValue) {
+    event.preventDefault();
+    let validC = document.querySelector("#coupon").value;
+    if (validC == "masai30") {
+      tValue = 0.7 * tValue;
+      tPrice.innerText = tValue.toFixed(2);
+    } else {
+      alert("Coupon not applicabe");
+    }
+  }
+</script>

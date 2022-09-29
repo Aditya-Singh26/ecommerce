@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      form {
+        width: 300px;
+        margin: auto;
+        margin-top: 5vh;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 20px;
+      }
+      h2 {
+        margin-bottom: 15px;
+      }
+      div {
+        width: 90%;
+        margin: auto;
+        display: block;
+        margin-bottom: 25px;
+      }
+      div > input {
+        width: 100%;
+        margin-top: 10px;
+      }
+      #submit:hover {
+        cursor: pointer;
+        background-color: rgb(152, 169, 183);
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <h2>Login</h2>
+      <div>
+        <label for="mail">Email</label>
+        <input id="mail" type="email" placeholder="Enter mail Here" />
+      </div>
+      <div>
+        <label for="pass">Password</label>
+        <input id="pass" type="password" placeholder="Enter Password Here" />
+      </div>
+      <div><input id="submit" type="submit" value="Login" /></div>
+      <p>
+        Not have an account?
+        <a>Sign Up</a>
+      </p>
+    </form>
+  </body>
+</html>
+<script>
+  //   data retrived
+  let signUpArr = JSON.parse(localStorage.getItem("signUpArrLs"));
+
+  // checking wether to give access or not
+  document.querySelector("form").addEventListener("submit", accessOrNot);
+  let loginData = JSON.parse(localStorage.getItem("loginDataLs")) || [];
+  function accessOrNot(event) {
+    event.preventDefault();
+    //  data entered by user
+    let loginObj = {
+      logEmail: document.querySelector("#mail").value,
+      logPass: document.querySelector("#pass").value,
+    };
+    let valid = checkCred(signUpArr, loginObj);
+    if (valid === false) {
+      alert("Wrong Credentials");
+    } else {
+      window.location.href = "navbar.html";
+      alert("Login Successful");
+      if (firstlogined(loginObj.logEmail) === true) {
+        loginData.push(loginObj);
+        localStorage.setItem("loginDataLs", JSON.stringify(loginData));
+      }
+    }
+  }
+
+  function checkCred(signUpArr, loginObj) {
+    for (let i = 0; i < signUpArr.length; i++) {
+      if (
+        signUpArr[i].email == loginObj.logEmail &&
+        signUpArr[i].pass == loginObj.logPass
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function firstlogined(email) {
+    let filtered = loginData.filter(function (elem) {
+      return elem.logEmail == email;
+    });
+    if (filtered.length > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  let signup = document.querySelector("a");
+  signup.setAttribute("href", "signup.html");
+</script>

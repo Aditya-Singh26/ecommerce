@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      form {
+        width: 300px;
+        margin: auto;
+        margin-top: 5vh;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 20px;
+      }
+      h2 {
+        margin-bottom: 15px;
+      }
+      div {
+        width: 90%;
+        margin: auto;
+        display: block;
+        margin-bottom: 25px;
+      }
+      div > input {
+        width: 100%;
+        margin-top: 10px;
+      }
+      #submit:hover {
+        cursor: pointer;
+        background-color: rgb(152, 169, 183);
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <h2>Sign Up</h2>
+      <div>
+        <label for="mail">Email</label>
+        <input id="mail" type="email" placeholder="Enter mail Here" />
+      </div>
+      <div>
+        <label for="mob">Mobile No.</label>
+        <input id="mob" type="tel" placeholder="Mobile No." />
+      </div>
+      <div>
+        <label for="pass">Password</label>
+        <input id="pass" type="password" placeholder="Create Password" />
+      </div>
+      <div><input id="submit" type="submit" value="Sign Up"/></div>
+      <p>Already have an account?</p>
+    </form>
+  </body>
+</html>
+<script>
+  document.querySelector("form").addEventListener("submit", signUp);
+  //  login page linked
+  let loginPage = document.createElement("a");
+  loginPage.setAttribute("href", "login.html");
+  loginPage.innerText = "Sign In";
+  document.querySelector("form").append(loginPage);
+
+  //  signup credential stored
+  let signUpArr = JSON.parse(localStorage.getItem("signUpArrLs")) || [];
+  function signUp(event) {
+    event.preventDefault();
+    let userCred = {
+      email: document.querySelector("#mail").value,
+      mobile_no: document.querySelector("#mob").value,
+      pass: document.querySelector("#pass").value,
+    };
+    if (
+      (userCred.email == "" || userCred.mobile_no == 0 || userCred.pass == "")
+    ) {
+      alert("Details not filled");
+    } else {
+      
+      if (firstTimeUser(userCred) === true) {
+        signUpArr.push(userCred);
+        localStorage.setItem("signUpArrLs", JSON.stringify(signUpArr));
+        window.location.href="login.html"
+        alert("Account created successfully")
+      } else {
+        window.location.href="login.html"
+        alert("Already had an account");
+        
+      }
+    }
+  }
+
+  function firstTimeUser(userCred) {
+    let filtered=signUpArr.filter(function(elem){
+       return elem.email==userCred.email ||elem.mobile_no==userCred.mobile_no;
+    })
+
+    if(filtered.length>0){
+      return false;
+    }else{
+      return true;
+    }
+  }
+</script>

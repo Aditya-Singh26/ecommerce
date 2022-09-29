@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navbar</title>
+    <style>
+      #nav {
+        width: 100%;
+        height: 80px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #1d2938;
+        border-radius: 20px;
+        box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);
+      }
+
+      #nav > div {
+        display: flex;
+        padding-left: 30px;
+        color: white;
+      }
+
+      #nav > div:last-child {
+        width: 30%;
+        justify-content: space-around;
+      }
+      a {
+        color: white;
+        text-decoration: none;
+      }
+      #cart > img {
+        width: 30px;
+        height: auto;
+        background-color:transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="nav">
+      <div>
+        <p>Reebok</p>
+      </div>
+      <div>
+        <p id="mens">Men</p>
+        <p id="womens">Women</p>
+        <p id="cart"><img src="cart.jpg" alt="" /></p>
+        <p><a href="login.html">Login</a></p>
+        <p><a href="signup.html">Signup</a></p>
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+  let loginData = JSON.parse(localStorage.getItem("loginDataLs"))
+  document.querySelector("#mens").addEventListener("click" ,accessToPages)
+ 
+  function accessToPages(event){
+
+ }
+</script>
